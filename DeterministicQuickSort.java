@@ -1,0 +1,58 @@
+public class DeterministicQuickSort implements QuickSort {
+    private long counter = 0;
+
+    public long getCounter() {
+        return counter;
+    }
+
+    public void sort(int[] A) {
+        this.counter = 0;
+        
+        this.sort(A, 0, A.length - 1);
+    }
+
+    private void sort(int[] A, int lo, int hi) {
+        if (hi > lo) {
+            int r = hi;
+
+            int p = partition(A, lo, hi, r);
+
+            this.sort(A, lo, p - 1);
+
+            this.sort(A, p + 1, hi);
+        }
+    }
+
+    private int partition(int[] A, int lo, int hi, int r) {
+        int x = A[r];
+
+        this.swap(A, r, hi);
+
+        int j = hi - 1;
+        int i = lo;
+
+        while (i <= j){
+            /**
+             * INCREMENTING COUNTER RIGHT HERE
+             */
+            this.counter++;
+
+            if (A[i] <= x) {
+                i++;
+            }
+            else {
+                this.swap(A, i, j);
+                j--;
+            }
+        }
+        this.swap(A, hi, j + 1);
+
+        return (j + 1);
+    }
+
+    private void swap(int[] A, int x, int y) {
+        int temp = A[x];
+        A[x] = A[y];
+        A[y] = temp;
+    }
+}
